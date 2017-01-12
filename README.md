@@ -59,15 +59,15 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/borisguery/transient-error-handling.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/borisguery/transient-error-handling/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/borisguery/transient-error-handling.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/borisguery/transient-error-handling.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/borisguery/PHPTransientFaultHandling/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/borisguery/PHPTransientFaultHandling.svg?style=flat-square
+[ico-code-quality]: https://scrutinizer-ci.com/g/borisguery/PHPTransientFaultHandling/badges/quality-score.png?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/borisguery/transient-error-handling.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/borisguery/transient-error-handling
-[link-travis]: https://travis-ci.org/borisguery/transient-error-handling
-[link-scrutinizer]: https://scrutinizer-ci.com/g/borisguery/transient-error-handling/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/borisguery/transient-error-handling
-[link-downloads]: https://packagist.org/packages/borisguery/transient-error-handling
+[link-travis]: https://travis-ci.org/borisguery/PHPTransientFaultHandling
+[link-scrutinizer]: https://scrutinizer-ci.com/g/borisguery/PHPTransientFaultHandling/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/borisguery/PHPTransientFaultHandling
+[link-downloads]: https://packagist.org/packages/borisguery/PHPTransientFaultHandling
 [link-author]: https://github.com/borisguery
 [link-contributors]: ../../contributors
