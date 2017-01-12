@@ -1,0 +1,12 @@
+<?php
+/**
+ * @author Boris Guéry <guery.b@gmail.com>
+ */
+
+if (file_exists($file = __DIR__.'/autoload.php')) {
+    require_once $file;
+} elseif (file_exists($file = __DIR__.'/autoload.php.dist')) {
+    require_once $file;
+}
+
+define('ONE_SECOND_IN_MICROSECONDS', 1000000);

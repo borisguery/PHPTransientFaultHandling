@@ -1,0 +1,29 @@
+{
+  "name": "borisguery/transient-error-handling",
+  "description": "Transient Error Handling",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Boris Guéry",
+      "email": "guery.b@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Bgy\\": "src/Bgy"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Bgy\\Tests\\": "tests/Bgy/Tests"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7"
+  },
+  "require": {
+    "beberlei/assert": "^2.7",
+    "php": "^7.0"
+  }
+}
