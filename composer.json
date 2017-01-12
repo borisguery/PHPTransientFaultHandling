@@ -25,5 +25,8 @@
   "require": {
     "beberlei/assert": "^2.7",
     "php": "^7.0"
+  },
+  "scripts": {
+      "test": "vendor/bin/phpunit --testdox"
   }
 }
