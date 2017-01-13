@@ -9,14 +9,7 @@ use Throwable;
 
 class RetryPolicy
 {
-    /**
-     * @var ErrorDetectionStrategy
-     */
     private $errorDetectionStrategy;
-
-    /**
-     * @var RetryStrategy
-     */
     private $retryStrategy;
 
     public function __construct(ErrorDetectionStrategy $errorDetectionStrategy, RetryStrategy $retryStrategy)
