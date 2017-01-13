@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Boris Guéry <guery.b@gmail.com>
  */
-class SimpleRetryPolicyTest extends TestCase
+class RetryPolicyTest extends TestCase
 {
     public function testSimpleRetryPolicy()
     {
