@@ -25,7 +25,7 @@ class RetryPolicyTest extends TestCase
     private $retryStrategy;
     private $defaultDelay;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->maxRetryCount = $maxRetryCount = 4;
         $this->defaultDelay  = $defaultDelay  = 2;

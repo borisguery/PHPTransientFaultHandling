@@ -14,7 +14,7 @@ class IncrementalTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testIncremental(int $retryCount, int $initialIntervalInMicroseconds, int $incrementInMicroseconds)
+    public function testIncremental(int $retryCount, float $initialIntervalInMicroseconds, int $incrementInMicroseconds)
     {
         $retryStrategy = new Incremental($retryCount, $initialIntervalInMicroseconds, $incrementInMicroseconds);
         $shouldRetry = $retryStrategy->getShouldRetry();
