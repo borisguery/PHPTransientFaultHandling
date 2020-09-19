@@ -6,6 +6,7 @@ use Bgy\TransientFaultHandling\ErrorDetectionStrategy;
 use Bgy\TransientFaultHandling\EventDispatcher;
 use Bgy\TransientFaultHandling\Events;
 use Bgy\TransientFaultHandling\Retrying;
+use Bgy\TransientFaultHandling\RetryLimitExceeded;
 use Bgy\TransientFaultHandling\RetryPolicy;
 use Bgy\TransientFaultHandling\RetryStrategy;
 use Bgy\TransientFaultHandling\ShouldRetry;
@@ -13,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters;
+use Throwable;
 
 /**
  * @author Boris Guéry <guery.b@gmail.com>
@@ -28,7 +30,7 @@ class RetryPolicyTest extends TestCase
     protected function setUp(): void
     {
         $this->maxRetryCount = $maxRetryCount = 4;
-        $this->defaultDelay  = $defaultDelay  = 2;
+        $this->defaultDelay = $defaultDelay = 2;
 
         $actionException = $this->getMockBuilder(\Exception::class)
             ->setMockClassName('ActionException')
@@ -39,7 +41,7 @@ class RetryPolicyTest extends TestCase
 
         $errorDetectionStrategy = $this->createMock(ErrorDetectionStrategy::class);
         $errorDetectionStrategy
-            ->expects($this->exactly($this->maxRetryCount))
+            ->expects(self::exactly($this->maxRetryCount))
             ->method('isTransient')
             ->willReturn(true)
         ;
@@ -48,7 +50,7 @@ class RetryPolicyTest extends TestCase
 
         $shouldRetry = $this->createMock(ShouldRetry::class);
         $mockedMethod = $shouldRetry
-            ->expects($this->exactly($this->maxRetryCount))
+            ->expects(self::exactly($this->maxRetryCount))
             ->method('__invoke')
                 ->willReturnCallback(function ($retryCount, $lastError, &$delay) use ($maxRetryCount, $defaultDelay) {
                     $delay += $defaultDelay;
@@ -89,7 +91,7 @@ class RetryPolicyTest extends TestCase
     {
         $retryPolicy = new RetryPolicy($this->errorDetectionStrategy, $this->retryStrategy);
 
-        $this->expectException('ActionException');
+        $this->expectException(get_class($this->actionException));
 
         $actionException = $this->actionException;
 
@@ -97,5 +99,23 @@ class RetryPolicyTest extends TestCase
 
             throw $actionException;
         });
+    }
+
+    public function testSimpleRetryPolicyWithWrapLastErrorOption()
+    {
+        $retryPolicy = new RetryPolicy($this->errorDetectionStrategy, $this->retryStrategy, true);
+
+        $actionException = $this->actionException;
+
+        try {
+            $retryPolicy->execute(function () use ($actionException) {
+
+                throw $actionException;
+            });
+        } catch (Throwable $e) {
+            self::assertInstanceOf(RetryLimitExceeded::class, $e);
+            self::assertSame('Retry policy exceeded the number of allowed retries (max: 4)', $e->getMessage());
+            self::assertInstanceOf(get_class($actionException), $e->getPrevious());
+        }
     }
 }

@@ -9,19 +9,22 @@ use Throwable;
 
 class RetryPolicy
 {
-    private $errorDetectionStrategy;
-    private $retryStrategy;
+    private ErrorDetectionStrategy $errorDetectionStrategy;
+    private RetryStrategy $retryStrategy;
+    private bool $wrapLastError;
 
-    public function __construct(ErrorDetectionStrategy $errorDetectionStrategy, RetryStrategy $retryStrategy)
+    public function __construct(ErrorDetectionStrategy $errorDetectionStrategy, RetryStrategy $retryStrategy,
+                                bool $wrapLastError = false)
     {
         $this->errorDetectionStrategy = $errorDetectionStrategy;
-        $this->retryStrategy          = $retryStrategy;
+        $this->retryStrategy = $retryStrategy;
+        $this->wrapLastError = $wrapLastError;
     }
 
     public function execute(callable $action)
     {
-        $retryCount    = 0;
-        $delay         = 0;
+        $retryCount = 0;
+        $delay = 0;
         $lastException = null;
 
         $shouldRetry = $this->retryStrategy->getShouldRetry();
@@ -29,12 +32,21 @@ class RetryPolicy
         for (;;) {
             try {
 
-                return call_user_func($action);
+                return $action();
             } catch (Throwable $exception) {
                 $lastException = $exception;
 
-                if (!($this->errorDetectionStrategy->isTransient($exception)
-                    && $shouldRetry(++$retryCount, $lastException, $delay))) {
+                if (!$this->errorDetectionStrategy->isTransient($exception)) {
+
+                    throw $exception;
+                }
+
+                if (!$shouldRetry(++$retryCount, $lastException, $delay)) {
+
+                    if ($this->wrapLastError) {
+
+                        throw new RetryLimitExceeded($exception, $retryCount);
+                    }
 
                     throw $exception;
                 }
